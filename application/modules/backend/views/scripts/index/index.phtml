@@ -1,0 +1,66 @@
+<?php
+    $this->headTitle('Dashboard');
+?>
+
+<div class="grid2col clearfix">
+
+    <div class="col_right_wrap">
+
+        <div class="col_right">
+            <div class="note_panel">
+                <h3>Note:</h3>
+                <br/>
+                <p>Typically, you would limit this area to users with a 'ADMIN' role.  However to allow everybody to hit this page, access has
+                been granted to all registered users.</p>
+                <p>To change this behavior and allow access only to admins, change the line of code in App_AccessList.php that reads
+                <sourcecode>allow(self::ROLE_USER,'backend');</sourcecode> to pass the <sourcecode>self::ROLE_ADMIN</sourcecode> rather than
+                <sourcecode>self::ROLE_USER.</sourcecode></p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col_left_wrap">
+
+        <div class="col_left">
+
+            <h1>Flamingo Admin Dashboard</h1>
+
+            <p>This administration console is a demo page for the Flamingo application.  We do not show any customer
+            information in this console, just a page with some basic metrics such as the number of accounts, number of tasks etc.</p>
+
+            <div class="stats_wrap">
+                <table class="stats" cellpadding="0" cellspacing="0">
+
+                    <tr>
+                        <td class="count"><?php echo $this->userCount; ?></td>
+                        <td class="label">registered users.</td>
+                    </tr>
+
+                    <tr>
+                        <td class="count"><?php echo $this->listCount; ?></td>
+                        <td class="label">to-do lists.</td>
+                    </tr>
+
+                    <tr>
+                        <td class="count"><?php echo $this->completeTaskCount; ?></td>
+                        <td class="label">completed tasks.</td>
+                    </tr>
+
+                    <tr>
+                        <td class="count" style="color:#c00000"><?php echo $this->incompleteTaskCount; ?></td>
+                        <td class="label">incomplete tasks.</td>
+                    </tr>
+
+
+                </table>
+
+            </div>
+
+            
+        </div>
+
+    </div>
+
+</div>
+

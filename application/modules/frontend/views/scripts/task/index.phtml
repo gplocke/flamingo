@@ -1,0 +1,305 @@
+<?php
+    $this->headTitle('My Tasks');
+    $this->headScript()->appendFile($this->baseUrl() . '/js/jquery.form.js');
+?>
+
+<div class="banner_title">
+    <span>My Tasks</span>
+</div>
+
+<div class="grid2col clearfix">
+
+    <div class="col_right_wrap">
+
+        <div class="col_right">
+            
+            <div class="list_panel">
+                <h3>To-do lists</h3>
+                
+                <ul class="list_menu">
+                    <?php if (isset($this->tasklists)): ?>
+                        <?php foreach ($this->tasklists as $list) : ?>
+                            <li>
+                            <a href="<?php echo $this->linkTo(null, 'task', null, array('list'=>$list['id']));?>"
+                                    class="<?php echo ($list['id'] == $this->tasklist['id']) ? 'current':'' ?>">
+                                <span><?php echo $list->name; ?></span>
+                            </a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php endif;?>
+                </ul>
+
+                <p style="text-align:right; margin:0px">
+                    <a class="command" href="<?php echo $this->linkTo('add', 'list'); ?>">Create a new list</a>
+                </p>
+
+            </div>
+        </div>        
+
+    </div>
+
+    <div class="col_left_wrap">
+
+        <div class="col_left">
+
+            <div class="head_tasklist clearfix">
+
+                <ul class="command_links">
+                    <li><a href="<?php echo $this->linkTo('edit','list', null, array('list'=>$this->tasklist['id']))?>"
+                        class="command"><?php echo $this->translate("list_action_edit"); ?></a></li>
+                    <?php if ($this->tasklist_count > 1): // cannot delete the last list ?>
+                        <li><span class="sep">|</span></li>
+                        <li>
+                        <!-- use a simple form here so we can easily POST to the
+                            delete action (no ajax required here) -->
+                            <form id="form_list_delete" method="POST"
+                                action="<?php echo $this->linkTo('delete', 'list'); ?>">
+                                <a id="list_action_delete" href="#" class="command">
+                                    <?php echo $this->translate("list_action_delete"); ?></a>
+                                    <input name="list" type="hidden" value="<?php echo $this->tasklist['id'];?>"/>
+                            </form>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+
+                <span class="name"><?php echo $this->tasklist['name']; ?></span>
+
+                <span></span>
+            </div>
+
+            <div class="body_tasklist">
+
+                <table class="taskgrid" cellpadding="0" cellspacing="0" border="0">
+
+                    <col width="32px"/>
+                    <col width="auto"/>
+                    <col width="31px"/>
+
+                    <!-- put all incomplete tasks towards the top -->
+                    <tbody class="tasks incomplete">
+                    <?php if (isset($this->incomplete_tasks)): ?>
+                        <?php foreach ($this->incomplete_tasks as $task) : ?>
+                            <tr id="task_<?php echo $task->id; ?>">
+                                <td class="check"><input type="checkbox"/></td>
+                                <td class="descrip">
+                                        <?php echo $task->description; ?>
+                                </td>
+                                <td class="action"><a href="#" class="delete"></a></td>
+                            </tr>
+
+                        <?php endforeach; ?>
+                    <?php endif;?>
+                    </tbody>
+
+                    <!-- add a row in the table for adding a new item -->
+                    <tbody class="add">
+                    <tr>
+                        <td colspan="3">
+                            <div class="add_container">
+
+                                <?php echo $this->form; ?>
+
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                    <!-- put all completed tasks at the bottom -->
+                    <tbody class="tasks complete">
+                    <?php if (isset($this->complete_tasks)): ?>
+                        <?php foreach ($this->complete_tasks as $task) : ?>
+                            <tr id="task_<?php echo $task->id; ?>">
+                                <td class="check"><input type="checkbox"
+                                        checked="checked"/></td>
+                                <td class="descrip">
+                                        <?php echo $task->description; ?>
+                                </td>
+                                <td class="action"><a href="#" class="delete"></a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif;?>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    var _is_busy = false;
+
+    $(document).ready(function() {
+
+        $('form#add_task').submit(function() {
+
+            //  prevent accidental re-submit
+            if (_is_busy){
+                return false;
+            }
+            _is_busy=true;
+
+            var options = {
+                success: addTaskSuccess,
+                error: ajaxError,
+                type: "post",
+                dataType: "json",
+                clearForm: true,
+                url:"<?php echo $this->linkTo('add', 'task',
+                            null, array('list'=>$this->tasklist['id'])); ?>"
+            };
+
+            $(this).ajaxSubmit(options);
+            return false;
+        });
+
+        $('td.check input[type="checkbox"]').live('click', function(){
+
+            //  prevent accidental re-submit
+            if (_is_busy){
+                return false;
+            }
+            _is_busy=true;
+
+            var checked = $(this).is(':checked');
+            var task = getTaskId(this);
+
+            $.ajax({
+               type: "POST",
+               url:  "<?php echo $this->linkTo('complete', 'task'); ?>",
+               data: "task=" + task + "&status=" + (checked?'1':'0'),
+               dataType: "json",
+               success: completeTaskSuccess,
+               error:ajaxError
+         });
+            
+        });
+
+        $('tbody.tasks tr').live('mouseover', function(){
+            $(this).addClass('hover');
+        });
+
+        $('tbody.tasks tr').live('mouseout', function(){
+            $(this).removeClass('hover');
+        });
+
+        $('a.delete').live('click', function(){
+            //  prevent accidental re-submit
+            if (_is_busy){
+                return false;
+            }
+
+            if (!confirm("<?php echo $this->translate('task_confirm_delete')?>")){
+                return false;
+            }
+
+            _is_busy=true;
+
+            var task = getTaskId(this);
+            $.ajax({
+               type: "POST",
+               url:  "<?php echo $this->linkTo('delete', 'task'); ?>",
+               data: "task=" + task,
+               dataType: "json",
+               success: deleteTaskSuccess,
+               error:ajaxError
+         });
+        });
+
+        // simply post the list-delete form on click
+        $('a#list_action_delete').click(function(){
+
+            if (!confirm("<?php echo $this->translate('list_confirm_delete')?>")){
+                return false;
+            }
+            $('#form_list_delete').submit();
+            return false;
+        });
+
+
+    });
+
+    function getTaskId(ctx)  {
+        var task = $(ctx).parents('tr').get(0).id;
+        task = task.substring(5); // 5 = len('task_')
+        return task;
+    }
+
+    // called after successful task add
+    function addTaskSuccess(data)  {
+
+        _is_busy = false;
+        
+        if (data.error){
+            handleError(data.error);
+        }else{
+
+            var row = createTaskRow(data.id, data.description, 0);
+            $('table.taskgrid tbody.incomplete').append(row);
+        }        
+    }
+
+    function ajaxError(XMLHttpRequest, textStatus, errorThrown)  {
+
+        _is_busy = false;
+        handleError("<?php echo $this->translate('ajax_server_error')?>");
+    }
+
+    function handleError(error)  {
+        alert(error);
+    }
+
+    // called after successful task add
+    function completeTaskSuccess(data)  {
+
+        _is_busy = false;
+
+        if (data.error){
+            handleError(data.error);
+        }else{
+
+            // remove the old row
+            $('table.taskgrid tr#task_' + data.id).remove();
+
+            var row = createTaskRow(data.id, data.description, data.status);
+            if (data.status != 0){
+                $('table.taskgrid tbody.complete').append(row);
+            }else{
+                $('table.taskgrid tbody.incomplete').append(row);
+            }
+        }
+    }
+
+    // called after successful task deletion
+    function deleteTaskSuccess(data)  {
+
+        _is_busy = false;
+        if (data.error){
+            handleError(data.error);
+        }else{
+            $('table.taskgrid tr#task_' + data.id).remove();
+        }
+    }
+
+    function createTaskRow(id, description, status)  {
+
+        var row = '<tr id="task_' + id + '">' +
+                '<td class="check"><input type="checkbox" ';   
+        if (status != 0){
+            row += 'checked="checked"';
+        }
+        row += '></td><td class="descrip">'+ description + '</td>';
+        row += '<td class="action"><a href="#" class="delete"></a></td>';
+        row += '</tr>';
+
+        return row;
+    }
+</script>
+
+
+

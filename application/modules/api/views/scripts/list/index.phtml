@@ -1,0 +1,5 @@
+<lists>
+    <?php foreach ($this->tasklists as $list) : ?>
+    <list id="<?php echo $list['id']; ?>" name="<?php echo htmlspecialchars($list['name']); ?>"/>
+    <?php endforeach; ?>
+</lists>

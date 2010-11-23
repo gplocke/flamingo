@@ -1,0 +1,11 @@
+<lists>
+    <list id="<?php echo $this->tasklist['id']; ?>" name="<?php echo htmlspecialchars($this->tasklist['name']); ?>">
+        <tasks>
+        <?php foreach ($this->tasks as $task) : ?>
+            <task id="<?php echo $task['id']; ?>" complete="<?php echo $task->complete?'yes':'no'; ?>">
+                <description><?php echo htmlspecialchars($task->description); ?></description>
+            </task>
+        <?php endforeach; ?>
+        </tasks>
+    </list>
+</lists>

@@ -1,0 +1,44 @@
+
+body
+{
+    font-family:Georgia, Times;
+    font-size:12px;
+    color:#333;
+}
+
+#page_container
+{
+    width:960px;
+    margin:0px auto;
+}
+
+h1
+{
+    font-size:20px;
+}
+
+h3
+{
+    font-size:15px;
+    margin:0px 0px 8px 0px;
+}
+
+p
+{
+    font-size:14px;
+    line-height:18px;
+    margin:0px 0px 18px 0px;
+}
+
+p.copyright, p.updated
+{
+    font-size:12px;
+    color:#666;
+}
+
+ul li
+{
+    font-size:14px;
+    line-height:18px;
+}
+

@@ -1,0 +1,106 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="icon" type="image/gif" href="<?php echo $this->baseUrl(); ?>/img/favicon.gif"/>
+
+
+    <title>Login | Dodo</title>
+    <?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/css/style.css') ?>
+
+    <style type="text/css">
+
+        body
+        {
+            background:#333533;
+        }
+
+        #page_container {
+            width:500px;
+        }
+
+        .dialog {
+            border:8px solid #409438;
+            padding:0px 20px 20px 20px;
+            background:#fff;
+            margin-top:150px;
+        }
+
+        .dialog .header {
+            border-bottom:1px solid #ddd;
+            position:relative;
+            height:70px;
+            margin-bottom:25px;
+        }
+        
+        .dialog .header h2{
+            position:absolute;
+            bottom:10px;
+            left:0px;
+            font-size:18px;
+            font-weight:bold;
+            margin-bottom:3px;
+        }
+
+        .dialog .header #logo{
+            display:block;
+            width:177px;
+            height:52px;
+            background:url('<?php echo $this->baseUrl(); ?>/img/logo_med.gif') no-repeat 0px 0px;
+            position:absolute;
+            right:0px  !important;
+            left:auto !important;
+            top:auto !important;
+            bottom:10px !important;
+        }
+
+        p.signup
+        {
+            font-family:"Lucida Grande", Arial, Verdana, Sans-Serif;
+            text-align:right;
+            margin:20px 0px 0px 0px;
+            font-size:12px;
+            color:#e0e0e0;
+        }
+
+        p.signup a
+        {
+            color:#6EC95E;
+        }
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <div id="page_container">
+
+        <div class="dialog">
+
+            <div class="header">
+                <h2>Login to your account</h2>
+                <a id="logo" href="<?php echo $this->linkTo('index','index');?>"></a>
+            </div>
+
+            <?php if (!empty($this->formError)): ?>
+            <div class="form_errors_block">
+                <?php echo $this->formError; ?>
+            </div>
+            <?php endif; ?>
+
+            <?php echo $this->form; ?>
+
+        </div>
+
+        <p class="signup">Don't have an account?
+                <a href="<?php echo $this->linkTo(null, 'signup'); ?>">Sign Up</a></p>
+
+
+    </div>
+
+</body>
+</html>

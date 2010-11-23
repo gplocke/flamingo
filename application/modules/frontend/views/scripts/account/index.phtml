@@ -1,0 +1,128 @@
+<?php
+    $this->headTitle($this->translate('title_my_account'));
+?>
+
+<div class="banner_title">
+    <span><?php echo $this->translate('title_my_account'); ?></span>
+</div>
+
+<div class="grid2col clearfix">
+
+    <div class="col_right_wrap">
+
+        <div class="col_right">
+
+            <div class="list_panel">
+
+                <dl class="form medium">
+                    <dt>
+                        <label><?php echo $this->translate('account_label_apikey'); ?></label>
+                    </dt>
+                    <dd>
+                        <div class="static"><strong><?php echo $this->api_key?></strong></div>
+                    </dd>
+                    <dt>
+                        <label><?php echo $this->translate('account_label_apisecret'); ?></label>
+                    </dt>
+                    <dd>
+                        <div class="static">
+                            <form id="form_send_email" action="<?php echo $this->linkTo('sendmail', 'account'); ?>"
+                                method="POST">
+                                <input type="hidden" value="1" name="sendmail"/>
+                                <a href="#" id="account_link_sendemail">
+                                    <?php echo $this->translate('account_email_apisecret')?></a>
+                            </form>
+                        </div>
+                    </dd>
+
+                    <dt>
+                    </dt>
+                    <dd>
+                        <div class="static">
+                            <form id="form_delete_account" action="<?php echo $this->linkTo('delete', 'account'); ?>"
+                                method="POST">
+                                <input type="hidden" value="1" name="delete"/>
+                                <a href="#" id="account_link_delete" class="command">
+                                    <?php echo $this->translate('account_link_delete')?></a>
+                            </form>
+                        </div>
+                    </dd>
+
+                </dl>
+                
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="col_left_wrap">
+
+        <div class="col_left">
+            
+            <h1 class="hilite"><?php echo $this->translate('account_heading');?></h1>
+
+            <?php echo $this->form; ?>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    var _is_busy = false;
+
+    $(document).ready(function() {
+
+        enablePasswordFields($('#change_pwd').is(':checked'));
+
+        $('#change_pwd').click(function(){
+            enablePasswordFields($(this).is(':checked'));
+        });
+
+        // simply post the send-email form on click
+        $('a#account_link_sendemail').click(function(){
+
+            $('#form_send_email').submit();
+            return false;
+        });
+        
+        // simply post the account-delete form on click
+        $('a#account_link_delete').click(function(){
+
+            if (!confirm("<?php echo $this->translate('account_delete_confirm')?>")){
+                return false;
+            }
+            $('#form_delete_account').submit();
+            return false;
+        });
+
+
+    });
+
+    function enablePasswordFields(enable)
+    {
+        if (enable){
+            $('#password-label label').removeClass('disabled');
+            $('#password').removeAttr('disabled');
+            $('#password').removeClass('disabled');
+            $('#password2-label label').removeClass('disabled');
+            $('#password2').removeAttr('disabled');
+            $('#password2').removeClass('disabled');
+        }else{
+            $('#password-label label').addClass('disabled');
+            $('#password').attr('disabled','disabled');
+            $('#password').addClass('disabled');
+            $('#password2-label label').addClass('disabled');
+            $('#password2').attr('disabled','disabled');
+            $('#password2').addClass('disabled');
+        }
+
+
+    }
+
+</script>

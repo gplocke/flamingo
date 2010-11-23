@@ -1,0 +1,9 @@
+/* this CSS file should be included in every page
+
+author: Greg Wessels
+
+*/
+
+@import url('reset.css');
+@import url('clearfix.css');
+@import url('main.css');

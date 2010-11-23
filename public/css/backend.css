@@ -1,0 +1,64 @@
+
+body
+{
+    background: transparent url('../img/bg_repeat_admin.gif') repeat-x 0px 0px !important;
+}
+
+#page_header
+{
+    height:88px;
+}
+
+#logo
+{
+    width:203px;
+    height:68px;
+    background:url('../img/logo_admin.gif') no-repeat 0px 0px;
+    position:absolute;
+    left:-5px;
+    top:2px;
+}
+
+h1
+{
+    border-bottom:2px solid #ddd;
+}
+
+
+
+#user_links span
+{
+    color:#f0f0f0 !important;
+}
+#user_links a
+{
+    color:#e452de !important;
+}
+
+
+table.stats
+{
+    width:100%;
+}
+table.stats td
+{
+    vertical-align:middle;
+}
+
+table.stats td.count
+{
+    border-right:1px solid #ddd;
+    padding:10px;
+    width:25%;
+    font-size:36px;
+    text-align:right;
+    color:#409438;
+}
+
+table.stats td.label
+{
+    padding-left:10px;
+    text-align:left;
+    font-size:20px;
+}
+

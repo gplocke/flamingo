@@ -1,0 +1,54 @@
+<?php
+    $this->headTitle($this->translate('title_my_account'));
+?>
+
+<div class="banner_title">
+    <span><?php echo $this->translate('title_my_account'); ?></span>
+</div>
+
+<div class="grid2col clearfix">
+
+    <div class="col_right_wrap">
+
+        <div class="col_right">
+
+        </div>
+    </div>
+
+    <div class="col_left_wrap">
+
+        <div class="col_left">
+
+            <h4 class="hilite">Your account has been deleted.  Thanks for trying Flamingo!</h4>
+
+            <br/><br/>
+
+            <a href="<?php echo $this->linkTo(null,'index'); ?>">
+                <?php echo $this->translate('account_link_home'); ?>
+            </a>
+            
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    var _is_busy = false;
+
+    $(document).ready(function() {
+
+        // simply post the list-delete form on click
+        $('a#link_send_email').click(function(){
+
+            $('#form_send_email').submit();
+            return false;
+        });
+
+
+    });
+
+</script>

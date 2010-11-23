@@ -1,0 +1,64 @@
+<?php
+    $this->headTitle('Task management and application source code');
+?>
+
+<div id="banner">
+    Simple task management that gives you a leg to stand on.
+    <div style="margin-top: 25px; text-align: center;">
+        <a id="btn_signup" href="<?php echo $this->linkTo(null,'signup');?>" title="Sign Up"></a>
+        <a id="btn_code" href="https://github.com/gplocke/flamingo" title="Download Code"></a>
+    </div>
+</div>
+
+<div id="banner_list"></div>
+
+
+<div id="intro"></div>
+
+
+<div class="grid3col clearfix">
+
+    <div class="col_left_wrap">
+        <div class="col_left">
+            <h2>Public Frontend</h2>
+            <a href="<?php echo $this->linkTo(null,'task');?>">
+                <img src="<?php echo $this->baseUrl(); ?>/img/home_col_frontend.png" class="framed" alt="Frontend"/>
+            </a>
+            <br/>
+            <br/>
+            <p>A fully-functional to-do list editor.<br/>Click, click done.
+            <a href="<?php echo $this->linkTo(null,'signup');?>">Try it out!</a></p>
+        </div>
+    </div>
+
+    <div class="col_middle_wrap">
+        <div class="col_middle">
+            <h2>Admin Backend</h2>
+
+            <a href="<?php echo $this->linkto(null,null,'backend');?>">
+                <img src="<?php echo $this->baseUrl(); ?>/img/home_col_backend.png" class="framed" alt="Backend"/>
+            </a>
+            <br/>
+            <br/>
+            <p>A simple example of creating an administrative console
+            for internal users.</p>
+        </div>
+
+    </div>
+
+    <div class="col_right_wrap">
+        <div class="col_right">
+            <h2>Service API</h2>
+            <img src="<?php echo $this->baseUrl(); ?>/img/home_col_api.png" class="framed" alt="Service API"/>
+            <br/>
+            <br/>
+            <p>Want to provide a API in your own application?  Flamingo demonstrates an easy
+            solution in Zend Framework to give your users an extra tier of functionality.</p>
+        </div>
+        
+    </div>
+
+
+</div>
+
+

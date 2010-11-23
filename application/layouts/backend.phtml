@@ -1,0 +1,61 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <?php $this->headTitle()->setPostfix(' - Flamingo Admin'); ?>
+    <?php echo $this->headTitle(); ?>
+    
+    <?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/css/style.css'); ?>
+    <?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/css/backend.css'); ?>
+
+
+    <link rel="icon" type="image/gif" href="<?php echo $this->baseUrl(); ?>/img/favicon.gif"/>
+
+    <!-- google hosted jquery -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
+    <?php echo $this->headScript(); ?>
+    
+</head>
+
+<body class="<?php echo $this->bodyClass; ?>">
+
+    <div id="page_container">
+
+        <!-- the banner for every page -->
+        <div id="page_header">
+
+            <a id="logo" href="<?php echo $this->linkTo('index','index');?>"></a>
+
+            <div id="user_info">
+                <ul id="user_links">
+                    <li><span class="user"><?php echo $this->username; ?></span></li>
+                    <li><span class="sep">|</span></li>
+                    <li><a href="<?php echo $this->linkTo('logout','login');?>">Sign Out</a></li>
+                    <li><span class="sep">|</span></li>
+                    <li><a href="<?php echo $this->linkTo(null, null);?>">Goto Frontend</a></li>
+                 </ul>
+            </div>
+        </div>
+
+        <!-- every page will have content container -->
+        <div class="content">
+            <?php echo $this->layout()->content ?>
+        </div>
+
+        <!-- the footer for every page -->
+        <div id="page_footer" class="clearfix">
+
+            <div class="poweredby">
+                <a href="http://framework.zend.com/">
+                    <img src="<?php echo $this->baseUrl(); ?>/img/PoweredBy_ZF_4LightBG.png" border="0"/>
+                </a>
+            </div>
+            
+        </div>
+
+    </div>
+
+</body>
+</html>

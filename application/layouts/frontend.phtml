@@ -1,0 +1,99 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <?php $this->headTitle()->setPostfix(' - Flamingo'); ?>
+    <?php echo $this->headTitle(); ?>
+    
+    <?php echo $this->headLink(); ?>
+    <?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/css/style.css') ?>
+
+    <link rel="icon" type="image/gif" href="<?php echo $this->baseUrl(); ?>/img/favicon.gif"/>
+
+    <!-- google hosted jquery -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
+    <?php echo $this->headScript(); ?>
+
+    
+</head>
+
+<body class="<?php echo $this->bodyClass; ?>">
+
+    <div id="page_container">
+
+        <!-- the banner for every page -->
+        <div id="page_header">
+
+            <a id="logo" href="<?php echo $this->linkTo('index','index');?>"></a>
+
+            <div id="main_links">
+                <?php echo $this->navigation()->menu()->render(); ?>
+            </div>
+
+            <div id="user_info">
+                <ul id="user_links">
+                    <?php if (isset($this->username)) : ?>
+                        <li><span class="user"><?php echo $this->username; ?></span></li>
+                        <li><span class="sep">|</span></li>
+                        <li><a href="<?php echo $this->linkTo(null,'account');?>">
+                            <?php echo $this->translate('link_my_account');?></a>
+                        </li>
+                        <li><span class="sep">|</span></li>
+                        <li><a href="<?php echo $this->linkTo('logout','login');?>">
+                            <?php echo $this->translate('link_signout');?></a>
+                        </li>
+                    <?php else: ?>
+                        <li><span>Already a user?</span></li>
+                        <li><a href="<?php echo $this->linkTo('index','login');?>">
+                            <?php echo $this->translate('link_signin');?></a>
+                        </li>
+                    <?php endif; ?>
+
+                 </ul>
+            </div>
+        </div>
+
+        <!-- every page will have content container -->
+        <div class="content">
+            <?php echo $this->layout()->content ?>
+        </div>
+
+        <!-- the footer for every page -->
+        <div id="page_footer" class="clearfix">
+            
+            <div class="legal">
+                <a href="<?php echo $this->baseUrl(); ?>/privacy.html">Privacy Policy</a>
+                <span class="sep">|</span>
+                <a href="<?php echo $this->baseUrl(); ?>/terms.html">Terms of Use</a>
+            </div>
+
+
+            <div class="poweredby">
+                <a href="http://framework.zend.com/">
+                    <img src="<?php echo $this->baseUrl(); ?>/img/PoweredBy_ZF_4LightBG.png" border="0"/>
+                </a>
+            </div>
+            
+        </div>
+
+    </div>
+
+<?php
+    // output the google analytics block if configured
+    $config = Zend_Registry::get('config');
+    if (isset($config->analytics->tracker))
+    { ?>
+    <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+        var pageTracker = _gat._getTracker("<?php echo $config->analytics->tracker; ?>");
+        pageTracker._trackPageview();
+    </script>
+<?php } ?>
+
+</body>
+</html>
